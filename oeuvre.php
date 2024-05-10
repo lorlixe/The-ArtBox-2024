@@ -1,38 +1,43 @@
 <?php
-    require 'header.php';
-    require 'oeuvres.php';
+require 'header.php';
+require 'bdd.php';
 
-    // Si l'URL ne contient pas d'id, on redirige sur la page d'accueil
-    if(empty($_GET['id'])) {
-        header('Location: index.php');
-    }
+// Si l'URL ne contient pas d'id, on redirige sur la page d'accueil
 
-    $oeuvre = null;
+if (empty($_GET['Id'])) {
+    header('Location: index.php');
+}
+// var_dump(filter_input(INPUT_GET, 'Id', FILTER_SANITIZE_SPECIAL_CHARS));
+// exit;
 
-    // On parcourt les oeuvres du tableau afin de rechercher celle qui a l'id précisé dans l'URL
-    foreach($oeuvres as $o) {
-        // intval permet de transformer l'id de l'URL en un nombre (exemple : "2" devient 2)
-        if($o['id'] === intval($_GET['id'])) {
-            $oeuvre = $o;
-            break; // On stoppe le foreach si on a trouvé l'oeuvre
-        }
-    }
+$id = filter_input(INPUT_GET, 'Id', FILTER_SANITIZE_SPECIAL_CHARS);
 
-    // Si aucune oeuvre trouvé, on redirige vers la page d'accueil
-    if(is_null($oeuvre)) {
-        header('Location: index.php');
-    }
+$sqlQuery = 'SELECT * FROM oeuvres where Id = ?';
+$oeuvresStatement = $mysqlClient->prepare($sqlQuery);
+$oeuvresStatement->execute([$id]);
+$oeuvre = $oeuvresStatement->fetch();
+var_dump($oeuvre);
+// print_r
+
+exit;
+
+
+
+// Si aucune oeuvre trouvé, on redirige vers la page d'accueil
+if (is_null($oeuvre)) {
+    header('Location: index.php');
+}
 ?>
 
 <article id="detail-oeuvre">
     <div id="img-oeuvre">
-        <img src="<?= $oeuvre['image'] ?>" alt="<?= $oeuvre['titre'] ?>">
+        <img src="<?= $oeuvre['Url_photo'] ?>" alt="<?= $oeuvre['Titre'] ?>">
     </div>
     <div id="contenu-oeuvre">
-        <h1><?= $oeuvre['titre'] ?></h1>
-        <p class="description"><?= $oeuvre['artiste'] ?></p>
+        <h1><?= $oeuvre['Titre'] ?></h1>
+        <p class="description"><?= $oeuvre['Artiste'] ?></p>
         <p class="description-complete">
-             <?= $oeuvre['description'] ?>
+            <?= $oeuvre['Description'] ?>
         </p>
     </div>
 </article>
