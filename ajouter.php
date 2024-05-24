@@ -10,12 +10,12 @@
         <input type="text" name="artiste" id="artiste">
     </div>
     <div class="champ-formulaire">
-        <label for="image">URL de l'image</label>
-        <input type="url" name="image" id="image">
-    </div>
-    <div class="champ-formulaire">
         <label for="description">Description</label>
         <textarea name="description" id="description"></textarea>
+    </div>
+    <div class="champ-formulaire">
+        <label for="image">URL de l'image</label>
+        <input type="url" name="image" id="image">
     </div>
 
     <input type="submit" value="Valider" name="submit">

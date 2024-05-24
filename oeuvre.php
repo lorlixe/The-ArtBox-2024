@@ -16,10 +16,9 @@ $sqlQuery = 'SELECT * FROM oeuvres where Id = ?';
 $oeuvresStatement = $mysqlClient->prepare($sqlQuery);
 $oeuvresStatement->execute([$id]);
 $oeuvre = $oeuvresStatement->fetch();
-var_dump($oeuvre);
+// var_dump($oeuvre);
 // print_r
-
-exit;
+// exit;
 
 
 
